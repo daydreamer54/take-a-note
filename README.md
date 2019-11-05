@@ -4,13 +4,20 @@ You can get any notes that you wanna write
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Hello guys, i created this app by using flutter and sqflite library. For now you can add, delete and update your notes but in a short time i would like to add new features, comment lines to make this app more understandable. You can also add new things and add a pull request for the app. See you soon.
 
-A few resources to get you started if this is your first Flutter project:
+![mainpage](https://user-images.githubusercontent.com/34074484/68206740-92aacb00-ffde-11e9-8932-6344c74292ec.png)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+<br>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![add](https://user-images.githubusercontent.com/34074484/68206747-93dbf800-ffde-11e9-99fa-1dc7223c77db.png)
+
+<br>
+
+![update](https://user-images.githubusercontent.com/34074484/68206756-963e5200-ffde-11e9-9d7e-b2186b6714d4.png)
+
+<br>
+
+
+
+
