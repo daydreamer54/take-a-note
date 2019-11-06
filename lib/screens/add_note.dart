@@ -9,6 +9,8 @@ class AddNote extends StatefulWidget {
 }
 
 class _AddNoteState extends State<AddNote> {
+
+  //It will get current time when we try to do something
   var now = new DateTime.now(),
       formatter = new DateFormat('yyyy-MM-dd' + ' At ' + 'H:m');
 
@@ -62,8 +64,10 @@ class _AddNoteState extends State<AddNote> {
                     padding: const EdgeInsets.fromLTRB(6, 25, 6, 1),
                     child: TextFormField(
                       validator: (value) {
-                        if (value.length < 0) {
-                          return "At least you gotta write 3 characters";
+                        if (value.length > 0) {
+                          return null;
+                        } else {
+                          return "You should write something";
                         }
                       },
                       onSaved: (value) {
@@ -93,8 +97,10 @@ class _AddNoteState extends State<AddNote> {
                     padding: const EdgeInsets.fromLTRB(6, 25, 6, 1),
                     child: TextFormField(
                       validator: (value) {
-                        if (value.length < 5) {
-                          return "At least you gotta write 5 characters";
+                        if (value.length > 0) {
+                          return null;
+                        } else {
+                          return "You should write something";
                         }
                       },
                       onSaved: (value) {

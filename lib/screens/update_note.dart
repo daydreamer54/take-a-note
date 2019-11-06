@@ -12,8 +12,14 @@ class UpdateTheNote extends StatefulWidget {
 }
 
 class _UpdateTheNote extends State<UpdateTheNote> {
+
+  //Here we get an instance from helper class to reach our methods
   DatabaseHelper databaseHelper;
+
+  //It creates a list of our notes
   List<Note> allNotes;
+
+  //It controls our form to reach our save and other validates controls
   var formKey = GlobalKey<FormState>();
   var now = new DateTime.now(),
       formatter = new DateFormat('yyyy-MM-dd' + ' At ' + 'H:m');
@@ -29,6 +35,7 @@ class _UpdateTheNote extends State<UpdateTheNote> {
   void initState() {
     super.initState();
     now = DateTime.now();
+    /*When page loaded we get the variables from main page*/
     _title.text = widget.note.title;
     _content.text = widget.note.content;
     id = widget.note.id;

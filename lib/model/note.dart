@@ -1,4 +1,5 @@
 class Note {
+  //We've created them private not to reach and control from anywhere
   int _id;
   String _title;
   String _content;
@@ -32,7 +33,8 @@ class Note {
 
   Note.withID(this._id, this._title, this._content, this._date);
 
-  /*Verileri atama yaparken nesne türünden map yapısına çeviriyoruz */
+  /*When we try to send our variables it converts them to map constructor
+  because sqflite likes working with map*/
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     map['id'] = _id;
@@ -42,7 +44,8 @@ class Note {
     return map;
   }
 
-  /*Verileri çekerken map türünden nesne türüne çeviriyoruz*/
+  /*When we try to send our variables it converts them to class constructor
+  because they are in map constructor before we convert them*/
   Note.fromMap(Map<String, dynamic> map) {
     this._id = map['id'];
     this._title = map['title'];
