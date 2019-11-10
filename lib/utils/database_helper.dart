@@ -6,8 +6,7 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:todo_app/model/note.dart';
 
-
- /*We'll creates our table name and columns names with that way
+/*We'll creates our table name and columns names with that way
  so when we wanna updates any of them it will be more easy*/
 class DatabaseHelper {
   String _tableName = 'note';
@@ -15,7 +14,6 @@ class DatabaseHelper {
   String _columnTITLE = 'title';
   String _columnCONTENT = 'content';
   String _columnDATE = 'date';
-
 
   /*We will use singleton pattern to reach our methods in the app
   with that way we won't create more instance from that helper class
@@ -33,7 +31,6 @@ class DatabaseHelper {
       return _databaseHelper;
     }
   }
-
 
   //It checks if database created or not
   Future<Database> _getDatabase() async {
@@ -89,7 +86,13 @@ class DatabaseHelper {
   Future<int> deleteOneNote(int id) async {
     var db = await _getDatabase();
     var result =
-    db.delete(_tableName, where: '$_columnID = ?', whereArgs: [id]);
+        db.delete(_tableName, where: '$_columnID = ?', whereArgs: [id]);
+    return result;
+  }
+
+  Future<int> deleteAllNotes() async {
+    var db = await _getDatabase();
+    var result = db.delete(_tableName);
     return result;
   }
 

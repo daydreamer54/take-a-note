@@ -42,6 +42,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        splashColor: Colors.white,
         tooltip: 'Add Note',
         onPressed: () {
           Navigator.push(
@@ -59,8 +60,57 @@ class _MainPageState extends State<MainPage> {
         backgroundColor: Colors.orange,
       ),
       appBar: AppBar(
+        actions: <Widget>[
+          PopupMenuButton<Notes>(
+            color: Colors.blueGrey,
+            padding: EdgeInsets.all(
+              7.0,
+            ),
+            tooltip: 'Menu',
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                width: 2.0,
+                color: Colors.white,
+              ),
+              borderRadius: BorderRadius.circular(
+                15.0,
+              ),
+            ),
+            onSelected: (note) {
+              if (note.index == 0) {
+                _deleteAllNotes();
+              } else {
+                debugPrint(note.index.toString());
+              }
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Text(
+                  "Delete All Notes",
+                  style: TextStyle(
+                    fontSize: 17.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                value: Notes.delete,
+                height: 40.0,
+              ),
+              PopupMenuItem(
+                child: Text(
+                  "Archive All Notes",
+                  style: TextStyle(
+                    fontSize: 17.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                value: Notes.archive,
+                height: 40.0,
+              ),
+            ],
+          ),
+        ],
         elevation: 0.0,
-        centerTitle: true,
+        centerTitle: false,
         title: Text(
           "My Notes",
           style: TextStyle(
@@ -73,7 +123,7 @@ class _MainPageState extends State<MainPage> {
       body: FutureBuilder(
         future: databaseHelper.getAllMapNotes(),
         builder: (context, AsyncSnapshot<List<Note>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
             allNotes = snapshot.data;
             return Container(
               child: ListView.builder(
@@ -81,7 +131,7 @@ class _MainPageState extends State<MainPage> {
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () {
-                      //Tıklanılan notun değerlerini alıyoruz
+                      //We get the values which not has clicked
                       setState(() {
                         id = allNotes[index].id;
                         title = allNotes[index].title;
@@ -177,24 +227,35 @@ class _MainPageState extends State<MainPage> {
                 },
               ),
             );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
+          } else if (!snapshot.hasData) {
             return Center(
               child: Text(
                 "You don't have any notes yet",
                 style: TextStyle(
                   fontSize: 24.0,
                   color: Colors.white,
-                  fontFamily: 'Title',
                 ),
               ),
             );
-          }
+          } else
+            return Center(
+              child: CircularProgressIndicator(),
+            );
         },
       ),
     );
   }
+
+  //This method clear all the notes immediately
+  void _deleteAllNotes() async {
+    await databaseHelper.deleteAllNotes().then((removedNote) {
+      debugPrint(removedNote.toString() + " note deleted");
+    });
+    //After deleting we clear the screen with set state
+    setState(() {
+      allNotes.clear();
+    });
+  }
 }
+
+enum Notes { delete, archive }
