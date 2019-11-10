@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/screens/add_note.dart';
 import 'package:todo_app/screens/update_note.dart';
@@ -23,6 +24,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   DatabaseHelper databaseHelper;
+  var scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Note> allNotes;
 
@@ -41,6 +43,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       floatingActionButton: FloatingActionButton(
         splashColor: Colors.white,
         tooltip: 'Add Note',
@@ -80,7 +83,19 @@ class _MainPageState extends State<MainPage> {
               if (note.index == 0) {
                 _deleteAllNotes();
               } else {
-                debugPrint(note.index.toString());
+                scaffoldKey.currentState.showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.grey,
+                    content: Text(
+                      "This feature will be adding as soon as",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                );
               }
             },
             itemBuilder: (context) => [
@@ -227,7 +242,7 @@ class _MainPageState extends State<MainPage> {
                 },
               ),
             );
-          } else if (!snapshot.hasData) {
+          } else if (snapshot.hasData == null) {
             return Center(
               child: Text(
                 "You don't have any notes yet",
@@ -238,8 +253,12 @@ class _MainPageState extends State<MainPage> {
               ),
             );
           } else
-            return Center(
-              child: CircularProgressIndicator(),
+            return Text(
+              "You don't have any notes yet",
+              style: TextStyle(
+                fontSize: 24.0,
+                color: Colors.white,
+              ),
             );
         },
       ),
@@ -249,9 +268,21 @@ class _MainPageState extends State<MainPage> {
   //This method clear all the notes immediately
   void _deleteAllNotes() async {
     await databaseHelper.deleteAllNotes().then((removedNote) {
-      debugPrint(removedNote.toString() + " note deleted");
+      scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.grey,
+          content: Text(
+            removedNote.toString() + " note deleted",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 21.0,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      );
     });
-    //After deleting we clear the screen with set state
+    //After deleting we update the screen with set state
     setState(() {
       allNotes.clear();
     });
