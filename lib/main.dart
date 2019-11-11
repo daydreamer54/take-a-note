@@ -101,7 +101,7 @@ class _MainPageState extends State<MainPage> {
             itemBuilder: (context) => [
               PopupMenuItem(
                 child: Text(
-                  "Delete All Notes",
+                  "Delete All Notes....",
                   style: TextStyle(
                     fontSize: 17.0,
                     fontWeight: FontWeight.w600,
